@@ -1,6 +1,11 @@
+import os
 from random import randint
 from twisted.internet import reactor
 from twisted.internet.protocol import DatagramProtocol
+
+import webbrowser
+
+template = './templates/index.html'
 
 class Client(DatagramProtocol):
     def __init__(self,host, port) -> None:
@@ -10,6 +15,7 @@ class Client(DatagramProtocol):
         self.address = None
         self.server = host, 9999
         print(f'working on ip {self.id}')
+        webbrowser.open('file://' + os.path.realpath(template))
 
 
     def startProtocol(self):
@@ -17,6 +23,7 @@ class Client(DatagramProtocol):
         run after the initalization, will connect to server 
         '''
         self.transport.write('ready'.encode('utf-8'),self.server)
+
 
     def  datagramReceived(self, datagram: bytes, addr):
         '''
