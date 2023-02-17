@@ -15,15 +15,13 @@ class Client(DatagramProtocol):
         self.address = None
         self.server = host, 9999
         print(f'working on ip {self.id}')
-        webbrowser.open('file://' + os.path.realpath(template))
-
 
     def startProtocol(self):
         ''''
         run after the initalization, will connect to server 
         '''
+        webbrowser.open_new(template)
         self.transport.write('ready'.encode('utf-8'),self.server)
-
 
     def  datagramReceived(self, datagram: bytes, addr):
         '''
