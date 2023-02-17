@@ -38,10 +38,8 @@ class Client(DatagramProtocol):
         if addr == self.server:
             print(f'Users: {datagram}')
             num = input('choose clients:')
-
             while not num.isnumeric() and not -1 <= int(num) >= len(datagram):
                 num = input('choose clients:')
-
             num = int(num)
             client = datagram[num-1]["items"]
 
