@@ -15,18 +15,21 @@ class Server (DatagramProtocol):
         '''
         received data from the client
         '''
+        client = socket.gethostbyaddr(addr[0])
+
+        print(f'{client[0]} has connected on {client[-1][0]} -p {addr[1]}')
+
+        client_address = client[0],client[-1][0],addr[1]
+        
         datagram = datagram.decode('utf-8')
         if datagram == "ready":
+            self.clients.add(client_address)
             addressList = "\n".join([str(x) for x in self.clients])
             self.transport.write(addressList.encode('utf-8'),addr)
-            self.clients.add(addr)
 
 
 if __name__ == "__main__":
     port = 9999
-    # reactor.listenUDP(port,Server())
-    # reactor.run()
-
     portSocket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 
     # Make the port non-blocking and start it listening.
