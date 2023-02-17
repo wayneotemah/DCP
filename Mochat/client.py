@@ -32,10 +32,11 @@ class Client(DatagramProtocol):
         '''
 
         datagram = datagram.decode('utf-8')
+        print('\n', datagram, "###########################\n")
         datagram = json.loads(datagram)
-        print((datagram))
 
         if addr == self.server:
+            print(f'Users: {datagram}')
             num = input('choose clients:')
 
             while not num.isnumeric() and not -1 <= int(num) >= len(datagram):
@@ -43,10 +44,9 @@ class Client(DatagramProtocol):
 
             num = int(num)
             client = datagram[num-1]["items"]
-            
+
             self.address = client[1], client[2]
             reactor.callInThread(self.send_message)
-            print(f'{addr} send {datagram}')
 
     def send_message(self):
         while True:
