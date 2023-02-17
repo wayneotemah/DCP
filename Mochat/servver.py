@@ -46,9 +46,11 @@ class Server (DatagramProtocol):
         
         datagram = datagram.decode('utf-8')
         if datagram == "ready":
-            print(self.clients)
+            '''
+            ready message fom client to server
+            '''
             found = False
-            for index,element in enumerate(self.clients):
+            for index,element in enumerate(self.clients): # checking it user is 
                 if client[0] == element[0]:
                     self.clients.remove(self.clients[index])
                     self.clients.append(client_address)
@@ -60,7 +62,14 @@ class Server (DatagramProtocol):
             enc = MultiDimensionalArrayEncoder()
             address_list = enc.encode(self.clients)
 
-            self.transport.write(address_list.encode('utf-8'),addr)
+            for client in self.clients:
+                addr = client[1],client[2] # ip and port
+                self.transport.write(address_list.encode('utf-8'),addr)
+                print(f'sent to {client[0]}\n')
+                
+
+
+            # self.transport.write(address_list.encode('utf-8'),addr)
 
 
 if __name__ == "__main__":
